@@ -26,7 +26,7 @@ webkitBackingStorePixelRatio，目前 Mozilla、Opera 、 Microsoft没有这个�
 
 好！现在我们知道了webkitBackingStorePixelRatio是个啥，但是我们还要知道怎么去用。为了简单起见，比方说我们有个canvas他的宽度是200px并且它的webkitBackingStorePixelRatio的值是2.因此底层的backing store尺寸就是400px。要注意的是不同的浏览器在不同的设备上webkitBackingStorePixelRatio的值都不同，不一定是2。
 
-![canvas和backing store的联系](https://github.com//2b2b2b2b/blog/blob/master/pic/20170510/canvas-backingstore.png?raw=true)
+![canvas和backing store的联系](https://github.com/2b2b2b2b/blog/blob/master/pic/20170510/canvas-backingstore.png?raw=true)
 
 当浏览器开始渲染canvas，它先被比例缩小根据他的逻辑像素200px（之前的假设）。然后再根据devicePixelRatio再放大，假设devicePixelRatio 也是2和webkitBackingStoreRatio相同，那就是400px。（devicePixelRatio 也不一定是2，三星Nexus 7就是1.325），可能你还会有疑惑这个过程，看一下下图：
 
