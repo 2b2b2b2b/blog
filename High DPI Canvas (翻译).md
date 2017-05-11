@@ -30,7 +30,7 @@ webkitBackingStorePixelRatio，目前 Mozilla、Opera 、 Microsoft没有这个�
 
 当浏览器开始渲染canvas，它先被比例缩小根据他的逻辑像素200px（之前的假设）。然后再根据devicePixelRatio再放大，假设devicePixelRatio 也是2和webkitBackingStoreRatio相同，那就是400px。（devicePixelRatio 也不一定是2，三星Nexus 7就是1.325），可能你还会有疑惑这个过程，看一下下图：
 
-![canvas的缩放和重新缩放](/2b2b2b2b/blog/blob/master/pic/20170510/canvas-backingstore-device.png?raw=true)
+![canvas的缩放和重新缩放](https://github.com/2b2b2b2b/blog/blob/master/pic/20170510/canvas-backingstore-device.png?raw=true)
 
 现在我们知道devicePixelRatio 和 webkitBackingStoreRatio的作用过程，但我们还要进一步看看他们实施的差异。
 
