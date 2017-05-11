@@ -12,7 +12,9 @@
 在很早以前还没高分屏的时候，开发写的的1像素也就是实际的1像素（如果不考虑缩放的情况），你根本不需要做什么特殊的处理。如果css中设置100px那他就是100px。后来出现了高分屏的手机，并且在window对象下面出现了devicePixelRatio 这个神秘的属性，并且还可以用devicePixelRatio在媒体查询中进行判断。这个属性的意思就是：渲染时，css中的像素（逻辑像素）候和实际像素（物理像素）的比值。比如说：iPhone 4S它的devicePixelRatio 属性的值是2，那就是100px逻辑像素等于200px的设备实际像素。
 
 这对我们开发人员意味着什么呢？也就是我们的图像在高分屏上被放大了。在高分屏上，如果我们插入图片时的宽度是根据逻辑像素来设置，渲染的时候图片会根据devicePixelRatio 放大了数倍，当然图片也会变得很模糊。
+
 ![通过devicePixelRatio放大导致模糊](https://github.com/2b2b2b2b/blog/blob/master/pic/20170510/html5rocks-blurry.png?raw=true)
+
 解决这额个问题的方法就是，创建的图片的时候根据devicePixelRatio 放大数倍（比原照片更大的新的一张图片）然后再用css再把它缩小到原来的样子。因此缩小后的图片不会超过自己原来的尺寸并且不会再模糊。这样一来问题就解决了（当然这又带来了一个新的问题，你要根据不同的DPI设备获取不同的图片）
 
 # 介绍backing store
@@ -23,15 +25,21 @@ webkitBackingStorePixelRatio，目前 Mozilla、Opera 、 Microsoft没有这个�
 这个属性告诉我们目前浏览器的backing store 和canvas元素之间的关系。你肯定已经想问了backing store是神马？在你用canvas画任何图像的时候，实质上浏览器都会将这些图形存储在canvas的底层存储层，这个我们就称之为backing store 。当浏览器开始用canvas画图的时候都是从backing store 中拿数据再进行绘制。这就意味着有了这个属性我们可以知道backing store的尺寸和canvas尺寸的关系。你肯定想问为什么去用devicePixelRatio的值去确定backing store的尺寸，答案是浏览器不能保证devicePixelRatio 的值出来是对的。即使在Chrome 和 safari 6中两者的devicePixelRatio都是一样的，但是两者对于canvas的绘制方法不同(也就是 webkitBackingStorePixelRatio不同)。最终结论就是我们不能去用devicePixelRatio计算浏览器会放大图片多少倍。
 
 好！现在我们知道了webkitBackingStorePixelRatio是个啥，但是我们还要知道怎么去用。为了简单起见，比方说我们有个canvas他的宽度是200px并且它的webkitBackingStorePixelRatio的值是2.因此底层的backing store尺寸就是400px。要注意的是不同的浏览器在不同的设备上webkitBackingStorePixelRatio的值都不同，不一定是2。
+
 ![canvas和backing store的联系](https://github.com//2b2b2b2b/blog/blob/master/pic/20170510/canvas-backingstore.png?raw=true)
+
 当浏览器开始渲染canvas，它先被比例缩小根据他的逻辑像素200px（之前的假设）。然后再根据devicePixelRatio再放大，假设devicePixelRatio 也是2和webkitBackingStoreRatio相同，那就是400px。（devicePixelRatio 也不一定是2，三星Nexus 7就是1.325），可能你还会有疑惑这个过程，看一下下图：
+
 ![canvas的缩放和重新缩放](/2b2b2b2b/blog/blob/master/pic/20170510/canvas-backingstore-device.png?raw=true)
+
 现在我们知道devicePixelRatio 和 webkitBackingStoreRatio的作用过程，但我们还要进一步看看他们实施的差异。
 
 # 实施差异
 比如说在Macbook Pro Rentina 高分屏上，Safari 6的devicePixelRatio 和 webkitBackingStoreRatio的值分别是2和2。但是chrome是2和1。这意味着如果你在canvas上画图Safari将会自动的把你的图片尺寸变成两倍存储在backing store里，
 然后又缩小到逻辑像素然后通过devicePixelRatio又放大和backing store里的尺寸一样。但在chrome中图像直接根据逻辑像素尺寸存到backing store中，但在之后devicePixelRatio作用后图片将会被放大因此变模糊了。一图胜前言，下面的图显示不同浏览器里的结果：
+
 ![不同浏览器的比较](https://github.com/2b2b2b2b/blog/blob/master/pic/20170510/comparison-chrome.png?raw=true)
+
 在默认的chrome中图像渲染会变得模糊相较于Safari 6，因为我们的图片被不同的尺寸写进backing store ，然后通过devicePixelRatio进行了放大。
 
 这就带来两个问题：
