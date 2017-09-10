@@ -8,12 +8,17 @@
 ### 强制更新该数据库命令：updatedb
 
 ### 命令根据 /etc/updatedb.conf配置文件去搜索
--PRUNE_BIND_MOUNTS 配置是否生效  默认生效
--PRUNEFS 搜索时，不搜索文件系统
--PRUNENAMES 搜索时不收缩文件的类型
--PRUNEPATHS 搜索时的路径
+- PRUNE_BIND_MOUNTS 配置是否生效  默认生效
+- PRUNEFS 搜索时，不搜索文件系统
+- PRUNENAMES 搜索时不收缩文件的类型
+- PRUNEPATHS 搜索时的路径
 
 ## 搜索命令的命令whereis
 - 搜索命令所在路径以及帮助文档位置
 - 选项-b 只查找可执行文件
 - 选项-m 只查找帮助文件
+- 不可搜索到shell指令
+
+## 搜索命令的命令which
+- 搜索命令所在的路径&别名
+- 不可搜索到shell指令
