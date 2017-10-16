@@ -22,7 +22,40 @@
 - 若有属性无论在私有还是原型上 in 操作符 皆为true
 
 ## 继承
-- 组合继承，组合原型链和借用构造函数继承
+
+- 原型链继承
+
+缺点：1、引用类型值的属性会被共享 2、创建子类实例的时候无法给超类传递参数
+
+```javascript
+    function SuperType(){
+        this.colors = ['red','blue']
+    }
+
+    function SubType(){
+
+    }
+    SubType.prototype = new SuperType()
+```
+
+- 借用和构造函数
+
+缺点：方法都在构造函数中定义，无法复用
+
+```javascript
+    function SuperType(name){
+        this.name = name
+    }
+    function SubType(){
+        SuperType.call(this,'Nichiolas')
+        //实例属性
+        this.age = 29
+    }
+```
+
+- 组合继承，组合了原型链继承和借用构造函数继承
+
+缺点
 ```javascript
 function SuperType(name){
     this.name= name
@@ -38,8 +71,8 @@ function SubType(name,age){
 SubType.prototype = new SuperType()
 ```
 
-- 原型式继承,在不是很麻烦的情况下，不需要创建构造函数，即可用原型式继承,
-但是所有引用类型都会共享相同值,Object.create()ie9+支持
+- 原型式继承,在不是很麻烦的情况下，不需要创建构造函数，即可用原型式继承,但是所有引用类型都会共享相同值,Object.create()ie9+支持
+
 ```javascript
 var person = {
     name:'hello',
@@ -59,9 +92,10 @@ console.log(person.friend)//'['a','b','c','d','e']'
 ```
 
 - 寄生组合式继承，组合集成商JS中最常用的继承，但是它会调用两次超类构造函数。寄生组合式继承只需要调用一次超累，并且避免创建不必要属性。同时还能保持原型链。寄生组合式继承是引用类型最理想的继承范式
+
 ```javascript
 function inheritPrototype(subType,superType){
-    var prototype = Object(superType.prototype) //创建对象
+    var prototype = Object.create(superType.prototype) //创建对象
     prototype.constructor = subType//增强对象
     subType.prototype = prototype//指定对象
 }
