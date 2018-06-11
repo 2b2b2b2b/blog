@@ -54,7 +54,7 @@ Axios 的主要特性包括：
 
 ## 从 API 入手
 
-分析源码的时候，我们需要先要从 API 入手，尝试着猜想下内部的结构、带着问题再去  看源码会更加有效。
+分析源码的时候，我们需要先要从 API 入手，尝试着猜想下内部的结构、带着问题再去看源码会更加有效。
 我们来大致把 axios 的 API 进行归纳分类：
 
 | API                                                                      | 类型                                               |
@@ -165,7 +165,7 @@ utils.forEach(["post", "put", "patch"], function forEachMethodWithData(method) {
 
 ## 拦截器的实现
 
-首先在我们创建实例中，会去创建上下文实例 也就是 new Axios ,会得到 interceptors 这个属性,这个属性分别又有 request 和 responese 两个属性 ， 它们的值分别是 new InterceptorManager 构造函数返回的数组。这个构造函数同样负责拦截器数组的添加和移除。让我们看下源码:
+首先在我们创建实例中，会去创建上下文实例 也就是 new Axios ,会得到 interceptors 这个属性,这个属性分别又有 request 和 responese 两个属性 ，它们的值分别是 new InterceptorManager 构造函数返回的数组。这个构造函数同样负责拦截器数组的添加和移除。让我们看下源码:
 
 ```javascript
 "use strict";
@@ -177,7 +177,7 @@ function InterceptorManager() {
 }
 
 // axio或实例上调用 interceptors.request.use 或者 interceptors.resopnse.use
-// 传入的resolve, reject 将被添加入数组尾部
+// 传入的 resolve, reject 将被添加入数组尾部
 InterceptorManager.prototype.use = function use(fulfilled, rejected) {
   this.handlers.push({
     fulfilled: fulfilled,
